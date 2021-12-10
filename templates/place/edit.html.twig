@@ -1,0 +1,50 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Editar lugar: {{ place.titulo }}{% endblock %}
+
+{% block main %}
+{{ parent() }}
+<!-- Card with no padding with multiple content containers nested inside of it -->
+{% for message in app.flashes('addActorError') %}
+  <div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">Oooops!!!!</h4>
+    {{ message }}.
+  </div>
+{% endfor %}
+<div class="d-flex flex-wrap flex-column justify-content-center align-items-center"> 
+   <h2>EDICION DEL LUGAR <span class="text-bold">{{ place.titulo }}</span></h2>
+  <!-- First row -->
+    <div class="d-flex flex-column justify-content-center text-center">
+        {{ form_start(formulario)}}     
+                  <div class="form-group">{{ form_row(formulario.titulo)}}</div>
+                  <div class="form-group">{{ form_row(formulario.country)}}</div>
+                  <div class="form-group">{{ form_row(formulario.city)}}</div>
+                  <div class="form-group">{{ form_row(formulario.type)}}</div>
+                  <div class="form-group">{{ form_row(formulario.text)}}</div>
+                  <div class="form-group">{{ form_row(formulario.valoration)}}</div>
+                  {{ form_rest(formulario)}}
+                  <div class="d-flex flex-column m-5 p-5">
+                    <a href="{{ path('place_delete', {'id':place.id })}}" class="m-2">
+                      <button class="btn btn-danger">
+                        BORRAR
+                        {# <i class="fas fa-trash"></i> #}
+                      </button>
+                    </a>
+                  </div>
+          {{ form_end(formulario) }}
+    </div>
+    <div class="d-flex flex-wrap flex-column justify-content-center align-items-center"> 
+    <h2>AÑADIR FOTOS AL LUGAR <span class="text-bold">{{ place.titulo }}</span></h2>
+    <!-- First row -->
+    <div class="d-flex flex-column justify-content-center align-items-center text-center">
+        {{ form(formularioAddPhoto)}} 
+    </div>
+    <div class="content d-flex flex-column justify-content-center align-items-center text-center">
+						{% if place.getPhotos()|length > 0 %}
+							<h2 class="content-title m-0 p-2">FOTOS DEL LUGAR AÑADIDAS ACTUALMENTE: </h2>
+							{% set photos = place.getPhotos() %}
+							{% include 'photo/galery.html.twig' %}
+						{% endif %}
+					</div>
+</div>
+{% endblock %}

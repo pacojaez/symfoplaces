@@ -1,0 +1,117 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %} Home {{ app.user.name }} {% endblock %}
+
+{% block main %}
+{{ parent() }}
+<div class="d-flex flex-column text-center">
+      <div class="container-fluid overflow-x-hidden">
+      <h2 class="font-weight-bold text-uppercase text-primary m-5 p-5">HOME de {{ app.user.email }}</h2>
+      <!-- Card with no padding with multiple content containers nested inside of it -->
+      <div class="w-full p-2 d-flex flex-column"> <!-- w-600 = width: 60rem (600px), mw-full = max-width: 100% -->
+        <div class="card p-0 d-flex flex-column justify-content-center align-items-center"> <!-- p-0 = padding: 0 -->
+          <img src="{{ app.user.avatar ?
+                        path('pic_show', {'avatar': app.user.avatar }) :
+                        path('pic_show', {'avatar': 'default.png'})
+                    }}" 
+                    class="img-fluid rounded-top w-175 h-150 justify-center m-5 p-5" 
+                    alt="{{ app.user.name }}"> 
+          <!-- First content container nested inside card -->
+          <div class="content mt-0">
+            <h2 class="content-title">
+              {{ app.user.email }}
+            </h2>
+            <h3 class="content-title">
+              A.K.A {{ app.user.name }}
+            </h3>
+            <h5 class="content-title">
+              COUNTRY: {{ app.user.country }}
+            </h5>
+            <h5 class="content-title">
+              CITY: {{ app.user.city }}
+            </h5>
+            <h5 class="content-title">
+              PHONE NUMBER: {{ app.user.phone }}
+            </h5>
+            <div class="d-flex flex-column flex-wrap flex-wrap justify-content-center m-6">
+                <h3 class="content-title">
+                  OPERACIONES
+                </h3>
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 w-full"> 
+                  <details class="collapse-panel w-200 mw-full m-2"> <!-- w-400 = width: 40rem (400px), mw-full = max-width: 100% -->
+                    <summary class="collapse-header w-full">
+                       LUGARES <span><i class="fas fa-film mr-5" aria-hidden="true"></i></span>
+                    </summary>
+                    <div class="collapse-content">
+                      <a href=" {{ path('place_create')}}"><button class="btn btn-primary">AÑADIR LUGAR</button></a>
+                    </div>
+                  </details>
+                  {# <details class="collapse-panel w-200 mw-full m-2"> <!-- w-400 = width: 40rem (400px), mw-full = max-width: 100% -->
+                    <summary class="collapse-header">
+                       ACTORES <span><i class="fas fa-users mr-5" aria-hidden="true"></i></span>
+                    </summary>
+                    <div class="collapse-content">
+                      <a href=" {{ path('actor_create')}}"><button class="btn btn-primary">AÑADIR ACTOR</button></a>
+                    </div>
+                  </details> #}
+                  {% if is_granted('edit', app.user ) %}
+                    <details class="collapse-panel w-200 mw-full m-2"> <!-- w-400 = width: 40rem (400px), mw-full = max-width: 100% -->
+                      <summary class="collapse-header">
+                        USUARIO <span><i class="fas fa-user mr-5" aria-hidden="true"></i></span>
+                      </summary>
+                      <div class="collapse-content">
+                        <a href="{{ path('user_edit', {'id':app.user.id } )}}" class="btn btn-primary">MODIFICAR DATOS</a>
+                      </div>
+                      <div class="collapse-content">
+                        <a href="{{ path('app_forgot_password_request')}}" class="btn btn-secondary">CAMBIAR PASSWORD</a>
+                      </div>
+                      <div class="collapse-content">
+                        <a href="{{ path('unsubscribe')}}" class="btn btn-danger">DAR DE BAJA</a>
+                      </div>
+                    </details>
+                  {% endif %}
+                </div>
+            </div>
+            {# <div>
+              <span class="text-muted">
+                <i class="fa fa-clock-o mr-5" aria-hidden="true"></i>
+                
+              </span>
+            </div> #}
+            <div class="d-flex flex-row justify-content-center align-items-center mt-5 w-full">
+              {# <span class="badge">
+                <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i> {{ app.user.getComments().count() }} comments <!-- text-primary = color: primary-color, mr-5 = margin-right: 0.5rem (5px) -->
+              </span> #}
+              <span class="badge ml-5"> <!-- ml-5 = margin-left: 0.5rem (5px) -->
+                <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> 124 likes <!-- text-danger = color: danger-color, mr-5 = margin-right: 0.5rem (5px) -->
+              </span>
+              {#<span class="badge ml-5"> <!-- ml-5 = margin-left: 0.5rem (5px) -->
+                 <i class="fas fa-film mr-5" aria-hidden="true"></i> {{ app.user.getPlaces().count() }} lugares subidas <!-- text-danger = color: danger-color, mr-5 = margin-right: 0.5rem (5px) -->
+              </span> #}
+            </div>
+          </div>
+          <hr />
+          <!-- Second content container nested inside card (comments) -->
+          <div class="content">
+            <h2 class="content-title">
+              LUGARES SUBIDOS
+            </h2>
+            {% set places = app.user.getPlaces() %}
+
+            {% if places|length > 0 %}
+              {% include '/place/includes/placestable.html.twig' %}
+            {% else %}
+                <div class="text-center mt-20"> <!-- text-center = text-align: center, mt-20 = margin-top: 2rem (20px) -->
+                  <p>Aún no has creado ningún lugar. Sigue el enlace para empezar a crear lugares</p>
+                  <a href=" {{ path('place_create')}}"><button class="btn btn-sm btn-primary">CREAR NUEVO LUGAR</button></a>
+                </div>
+            {% endif %}
+            {# <div class="text-center mt-20"> <!-- text-center = text-align: center, mt-20 = margin-top: 2rem (20px) -->
+              <button class="btn btn-sm">Load all PLACES</button>
+            </div> #}
+          </div>
+        </div>
+      </div>
+</div>
+
+{% endblock %}

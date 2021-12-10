@@ -1,0 +1,40 @@
+<div class="d-flex flex-row flex-wrap justify-content-center align-items-center bg-very-dark">
+    {% for photo in photos %}
+        <!-- Card with no padding with a content container nested inside of it -->
+        <div class="col-3 mw-full"> <!-- w-400 = width: 40rem (400px), mw-full = max-width: 100% -->
+            <div class="card p-0 text-center"> <!-- p-0 = padding: 0 -->
+                <figure class="portfoliophoto__item">
+                    <img src="{{ asset( places_directory~'/'~( photo.ruta ?? 'default.jpg' ))}}" 
+                        class="img-fluid rounded-top portfoliophoto__img" 
+                        alt="{{ photo.title }}" title="{{ photo.title }}" 
+                        onclick="ver(this)";
+                        style="cursor:pointer"
+                        >
+                </figure>
+                <!-- Nested content container inside card -->
+                <div class="content">
+                    <h2 class="content-title">
+                        {{ photo.title}}
+                    </h2>
+                    <p class="text-muted">
+                        {{ photo.description }}
+                    </p>
+                </div>
+                {% if( is_granted('edit', photo )) %}
+                    <div class="d-flex flex-row justify-content-around alig-items-center">
+                        <p class="text-muted">
+                            <a href="{{ path('photo_delete', { 'id': photo.id })}}" class="btn text-danger">
+                                BORRAR
+                            </a>
+                        </p>
+                        <p class="text-muted">
+                            <a href="{{ path('photo_edit', { 'id': photo.id })}}" class="btn text-secondary">
+                                EDITAR
+                            </a>
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>

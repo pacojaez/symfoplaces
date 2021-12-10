@@ -1,0 +1,40 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    app.name: '%env(APP_NAME)%'
+    app.admin_email: '%env(APP_ADMIN_EMAIL)%'
+    app.uploads_dir: '%kernel.project_dir%/uploads'
+    app.places: '%env(APP_PLACES)%'
+    app.places_root: '%kernel.project_dir%/public/%app.places%'
+    # 
+    app.users_pics: '%env(APP_USERS_PICS)%'
+    app.users_pics_root: '%kernel.project_dir%/%app.users_pics%'
+    #
+    app.page_results: 5
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+    App\Services\FileService:
+        arguments:
+            $targetDirectory: '%app.uploads_dir%'
+    App\Services\PaginatorService:
+        arguments:
+            $limit: '%app.page_results%'
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones

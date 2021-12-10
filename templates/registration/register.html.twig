@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block main %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+    <div class="m-4 p-6 text-center w-full d-flex flex-column justify-content-center align-items-center overflow-x-hidden">
+        <h1>Register</h1>
+
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.email, {
+                    'label_attr': {'class': 'text-center font-weight-bold'}
+                }) 
+            }}
+            {{ form_row(registrationForm.name, {
+                    'label_attr': {'class': 'text-center font-weight-bold'}
+                }) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password',
+                'label_attr': {'class': 'text-center font-weight-bold'}
+            }) }}
+            {{ form_row(registrationForm.country, {
+                    'label_attr': {'class': 'text-center font-weight-bold'}
+                }) 
+            }}
+            {{ form_row(registrationForm.city, {
+                    'label_attr': {'class': 'text-center font-weight-bold'}
+                })
+            }}
+            {{ form_row(registrationForm.phone, {
+                    'label_attr': {'class': 'text-center font-weight-bold'}
+                })
+            }}
+            {{ form_row(registrationForm.avatar, {
+                    'label_attr': {'class': 'text-center font-weight-bold'}
+                }) }}
+             {{ form_row(registrationForm.agreeTerms, {
+                    label: 'Debes aceptar los términos',
+                    'label_attr': {'class': 'text-center font-weight-bold'}
+                }) }}
+
+            <button type="submit" class="btn">Register</button>
+        {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}

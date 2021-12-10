@@ -1,0 +1,18 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Añadir un Nuevo lugar a la DB{% endblock %}
+
+{% block main %}
+{{ parent() }}
+<!-- Card with no padding with multiple content containers nested inside of it -->
+<div class="w-800 mw-full"> <!-- w-600 = width: 60rem (600px), mw-full = max-width: 100% -->
+  <div class="card p-0"> <!-- p-0 = padding: 0 -->
+    <h2 class="text-center">AÑADIR UN NUEVO LUGAR</h2>
+    <!-- First content container nested inside card -->
+    <div class="content">
+      {{ form(formulario) }}
+    </div>
+    
+  </div>
+</div>
+{% endblock %}

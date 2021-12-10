@@ -1,0 +1,43 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Editar foto: {{ photo.title }}{% endblock %}
+
+{% block main %}
+{{ parent() }}
+<!-- Card with no padding with multiple content containers nested inside of it -->
+{% for message in app.flashes() %}
+  <div class="alert alert-danger" role="alert">
+    <h4 class="alert-heading">Oooops!!!!</h4>
+    {{ message }}.
+  </div>
+{% endfor %}
+<div class="d-flex flex-wrap flex-column justify-content-center align-items-center"> 
+   <h2>EDICION DE LA FOTO <span class="text-bold">{{ photo.title }}</span></h2>
+  <!-- First row -->
+    <div class="d-flex flex-column">
+        {{ form_start(formularioEdit)}}     
+                  <div class="form-group">{{ form_row(formularioEdit.title)}}</div>
+                  <div class="form-group">{{ form_row(formularioEdit.description)}}</div>
+                  {{ form_rest(formularioEdit)}}
+        {{ form_end(formularioEdit) }}
+        <p class="text-muted">
+            <a href="{{ path('photo_delete', { 'id': photo.id })}}" class="btn text-danger">
+                Borrar definivamente
+            </a>
+        </p>
+    </div>
+
+    <div class="d-flex flex-wrap flex-column justify-content-center align-items-center"> 
+    <!-- First row -->
+    <div class="d-flex flex-column">
+        {# {{ form(formularioAddPhoto)}}  #}
+    </div>
+    <div class="content d-flex flex-column justify-content-center align-items-center">
+						{% if place.getPhotos()|length > 0 %}
+							<h2 class="content-title m-0 p-2">FOTOS DEL LUGAR AÑADIDAS ACTUALMENTE: </h2>
+							{% set photos = place.getPhotos() %}
+							{% include 'photo/galery.html.twig' %}
+						{% endif %}
+					</div>
+</div>
+{% endblock %}

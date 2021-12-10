@@ -1,0 +1,78 @@
+<!-- Responsive table -->
+<div class="w-full m-2 p-2"> <!-- w-400 = width: 40rem (400px), mw-full = max-width: 100% -->
+  <div class="card p-0 bg-very-dark-dm"> <!-- p-0 = padding: 0, bg-very-dark-dm = background-color: var(--dark-color-dark) only in dark mode -->
+    <div class="table-responsive">
+      <table class="table p-4 m-4 table-hover">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="text-center text-wrap">LUGAR</th>
+            <th class="text-center text-wrap">PAIS</th>
+            <th class="text-center text-wrap">CIUDAD</th>
+            <th class="text-center text-wrap">TIPO</th>
+            <th class="text-center text-wrap">VALORACIÓN</th>
+            <th class="text-center text-wrap">USUARIO</th>
+            <th class="text-center text-wrap">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for place in places %}
+          <tr>
+              <td>{{ place.id }}</td>
+              <td class="text-wrap w-150">{{ place.titulo }}</td>
+              {# <td> #}
+                {# <img src="{{ asset(covers_directory ~'/'~ (place.caratula ?? 'default.jpg' ))}}" class="h-200 w-150 rounded-top" alt="{{ place.titulo }}" title="{{ place.titulo }}" />  #}
+              {# </td> #}
+                <td class="text-left text-wrap w-150">{{ place.country }}</td>
+                <td class="text-left text-wrap w-150">{{ place.city }}</td>
+                <td class="text-left text-wrap w-150">{{ place.type }}</td>
+                <td class="">
+                  <div class="d-flex justify-content-center align-items-center">
+                  {% if place.valoration != NULL %}
+                      {% for i in 1..5 %}
+                          {% if i <= place.valoration %}
+                          <img src="{{ asset('img/samples/estrellaon.gif')}}" alt="{{ place.valoration }} / 5" title="{{ place.valoration }}/5" style="height:25px; width:25px"/>
+                          {% else %}
+                          <img src="{{ asset('img/samples/estrellaoff.gif')}}" alt="{{ place.valoration }} / 5" title="{{ place.valoration }}/5" style="height:25px; width:25px"/>
+                          {% endif %}
+                      {% endfor %}
+                      {% else %}
+                      <p>Sin valoracion</p>
+                      {% endif %}
+                  </div>
+                </td>
+                {% if place.getUser() %}
+                  <td class="text-center text-wrap">
+                    <a href=" {{ path('user_show', {'id':place.getUser().id } ) }}">
+                      <span class="font-italic">{{ place.getUser().name }}</span>
+                    </a>
+                  </td>
+                {% else %}
+                  <td class="text-center text-wrap font-italic">Anónimo</td>
+                {% endif %}
+                <td class="">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <a href="{{ path('place_show', {'id':place.id })}}" class="m-5 primary">
+                        {# <img src="{{ asset('img/buttons/show.png')}}" alt="detalles placecula {{ place.titulo }}"  style="height:20px; width:20px"/> #}
+                            <i class="fas fa-search-plus"></i>
+                        </a>
+                        {% if is_granted('edit', place ) %}
+                        <a href="{{ path('place_edit', {'id':place.id })}}" class="m-5">
+                             {# <img src="{{ asset('img/buttons/update.png')}}" alt="editar placecula {{ place.titulo }}" style="height:20px; width:20px"/> #}
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a href="{{ path('place_delete', {'id':place.id })}}" class="m-5">
+                            {# <img src="{{ asset('img/buttons/delete.png')}}" alt="borrar placecula {{ place.titulo }}" style="height:20px; width:20px"/> #}
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        {% endif %}
+                        </div>
+                    </td>
+                </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

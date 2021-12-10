@@ -1,0 +1,35 @@
+
+<!-- Sidebar start -->
+      <div class="sidebar">
+        <div class="sidebar-menu">
+          <!-- Sidebar brand -->
+          <a href="#" class="sidebar-brand">
+            <img src="/img/mat/symfoplaces_icono.png" alt="symfoplaces">
+            SYMFOPLACES
+          </a>
+          <!-- Sidebar content with the search box -->
+          <div class="sidebar-content">
+            <input type="text" class="form-control" placeholder="Search">
+            <div class="mt-10 font-size-12"> <!-- mt-10 = margin-top: 1rem (10px), font-size-12 = font-size: 1.2rem (12px) -->
+              Press <kbd>/</kbd> to focus
+            </div>
+          </div>
+          {# {% include('components/search_place.html.twig') %} #}
+          <!-- Sidebar links and titles -->
+          <h5 class="sidebar-title">USUARIOS</h5>
+          <div class="sidebar-divider"></div>
+          
+          <a href="{{ path('all_users') }}" class="sidebar-link active d-flex flex-row justify-content-start align-items-center">
+            <i class="fa fa-users m-5" aria-hidden="true"></i>
+            <p class="m-5">All users</p>
+          </a>
+          {# <a href="#" class="sidebar-link">CLI commands</a> #}
+          <br />
+          {# <h5 class="sidebar-title">Components</h5>
+          <div class="sidebar-divider"></div>
+          <a href="#" class="sidebar-link">File explorer</a>
+          <a href="#" class="sidebar-link">Spreadsheet</a>
+          <a href="#" class="sidebar-link">Map</a>
+          <a href="#" class="sidebar-link">Messenger</a> #}
+        </div>
+      </div>

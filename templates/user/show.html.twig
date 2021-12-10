@@ -1,0 +1,54 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %} Perfil de {{ user.name }} {% endblock %}
+
+{% block main %}
+{{ parent() }}
+<div class="d-flex flex-column text-center">
+      <div class="container-fluid overflow-x-hidden">
+      <h2 class="font-weight-bold text-uppercase text-primary m-2 p-2">Perfil de {{ user.email }}</h2>
+      <!-- Card with no padding with multiple content containers nested inside of it -->
+      <div class="w-full p-2 d-flex flex-column"> <!-- w-600 = width: 60rem (600px), mw-full = max-width: 100% -->
+        <div class="card p-0 d-flex flex-column justify-content-center align-items-center"> <!-- p-0 = padding: 0 -->
+          <img src="{{ user.avatar ?
+                        path('pic_show', {'avatar': user.avatar }) :
+                        path('pic_show', {'avatar': 'default.png'})
+                    }}" 
+                    class="img-fluid rounded-top w-175 h-150 justify-center m-2 p-2" 
+                    alt="{{ user.name }}"> 
+          <!-- First content container nested inside card -->
+          <div class="content mt-0">
+            <h2 class="content-title">
+              {{ user.email }}
+            </h2>
+            <h3 class="content-title">
+              A.K.A {{ user.name }}
+            </h3>
+            <h5 class="content-title">
+              COUNTRY: {{ user.country }}
+            </h5>
+            <h5 class="content-title">
+              CITY: {{ user.city }}
+            </h5>
+          </div>
+          <hr />
+          <!-- Second content container nested inside card (comments) -->
+          <div class="content">
+            <h2 class="content-title">
+              LUGARES SUBIDOS
+            </h2>
+            {% set places = user.getPlaces() %}
+
+            {% if places|length > 0 %}
+              {% include '/place/includes/placestable.html.twig' %}
+            {% else %}
+                <div class="text-center mt-20"> <!-- text-center = text-align: center, mt-20 = margin-top: 2rem (20px) -->
+                  <p>{{ user.name }} aún no ha creado ningún lugar.</p>
+                </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+</div>
+
+{% endblock %}

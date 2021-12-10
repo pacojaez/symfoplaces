@@ -1,0 +1,76 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Modificar datos del usuario {{ user.email }} con id: {{ user.id }} {% endblock %}
+
+{% block main %}
+{{ parent() }}
+<div class="d-flex flex-column w-full p-4 mb-3 text-center border justify-content-center align-items-center">
+    <!-- Card with no padding with multiple content containers nested inside of it -->
+    <div class=" text-center border justify-content-center align-items-center d-flex flex-column"> <!-- w-600 = width: 60rem (600px), mw-full = max-width: 100% -->
+        <div class="flex-column p-10 m-5 card d-flex justify-content-center"> <!-- p-0 = padding: 0 -->
+            <!-- First content container nested inside card -->
+            <h3>MODIFICAR LOS DATOS DEL USUARIO {{ user.name }} </h3>
+            <div class="content">
+                <div class="flex-row d-flex align-items-center justify-content-center">
+                    <figure clas="">
+                        <img src="{{ user.avatar ?
+                                    path('pic_show', {'avatar': user.avatar }) :
+                                    path('pic_show', {'avatar': 'default.png'})
+                                }}" 
+                                class="justify-center p-2 m-2 img-fluid rounded-top w-175 h-150" 
+                                alt="{{ user.name }}">
+                        {# <img 
+                            src="{{ asset(covers_directory ~ '/' ~ (user.avatar) ?? 'default.jpg' )}}" 
+                            class="m-4 rounded-top" 
+                            alt="{{ user.name }}" 
+                            title="{{ user.name }}"
+                            style="max-width: 200px; max-height=200px"
+                        >  #}
+                        <figcaption class="m-4 text-center">Tu avatar actual</figcaption>
+                    </figure>
+                    <figure>
+                        <img 
+                            id="preview"
+                            src="{{ user.avatar ?
+                                    path('pic_show', {'avatar': user.avatar }) :
+                                    path('pic_show', {'avatar': 'default.png'})
+                                }}" 
+                                class="justify-center p-2 m-2 img-fluid rounded-top w-175 h-150" 
+                                alt="{{ user.name }}">
+                        {# <img 
+                            id="preview" 
+                            src="{{ asset(covers_directory ~ '/' ~ (user.avatar) ?? 'default.jpg' )}}" 
+                            class="m-4 rounded-top" 
+                            alt="{{ user.name }}" 
+                            title="{{ user.name }}"
+                            style="max-width: 200px; max-height=200px"
+                        > #}
+                        <figcaption class="m-4 text-center">Resultado de los cambios</figcaption>
+                    </figure>
+                    {% if user.avatar %}
+                        <div class="flex-row d-flex justify-content-end">
+                            <div class="flex-column d-flex justify-content-start align-items-center">
+                                <a href="{{ path('user_delete_image', {'id': user.id }) }}" class="text-center ">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                                <h5 class="m-4 text-center">
+                                    Eliminar avatar
+                                </h5>
+                            </div>
+                        </div>
+                    {% endif %} 
+                </div>
+                {{ form(formulario) }}
+            </div>
+            <div class="content">
+            {# {% set id = user.id %} #}
+            {# {{ form_start(role_form,  { } )}}
+                {{ form_row( role_form.role ) }}
+                {{ form_rest(role_form)}}
+            {{ form_end(role_form)}} #}
+            </div>
+        </div>
+    </div>   
+</div>
+<script src=" {{ asset('/js/previsualizacionUserAvatar.js') }}"></script>
+{% endblock %}

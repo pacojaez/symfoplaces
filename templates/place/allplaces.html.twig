@@ -1,0 +1,45 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Todas los Sitios{% endblock %}
+
+{% block main %}
+  <style>
+      .example-wrapper { margin: 1em auto; max-width: 1200px; width: 95%; font: 18px/1.5 sans-serif; }
+      .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+  </style>
+    <div class="w-full">
+        {# <div class="flex-row mt-0 mb-6 d-flex justify-content-center">
+          {% include 'place/searchform.html.twig' %}
+        </div> #}
+        
+          <div class="d-flex flex-row p-5 m-5 justify-content-around align-items-center">
+            {# Crear variable en Twig #}
+            {% set ruta = 'all_places' %}
+                {% if is_granted('create', entityFaker.getMock('place') ) %}
+                    <a href=" {{ path ( 'place_create' )}}">
+                        <button class="btn btn-primary">AÑADIR NUEVO LUGAR</button>
+                    </a>
+                {% endif %}
+            {% if totalPaginas > 1 %}
+              {% include('components/pagination.html.twig') %}
+            {% endif %}	
+          </div>
+      <!-- ejemplo de como añadir un modal al proyecto -->
+      {# <a href="#modal-2" class="btn btn-primary" role="button">Ejemplo de modal</a> #}
+        <div class="flex-wrap p-5 mt-10 d-flex justify-content-center"> 
+          <h2>LISTA DE LUGARES AÑADIDOS A SYMFOPLACES</h2>
+        </div>
+        {% if places %}
+          {% include 'place/includes/placestable.html.twig' %}
+            <div class="flex-wrap p-2 m-2 d-flex justify-content-center"> 
+              {# {% if totalPaginas > 1 %}
+                {% include('components/pagination.html.twig') %}
+              {% endif %} #}
+            </div>
+        {% else %}
+          <div class="p-4 m-4 alert alert-danger" role="alert">
+              <h4 class="alert-heading">No hay sitios en la DB con ese término de búsqueda</h4>
+          </div>
+        {% endif %}
+    </div>
+{% endblock %}

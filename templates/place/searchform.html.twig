@@ -1,0 +1,31 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Buscar lugar{% endblock %}
+
+{% block main %}
+    <div class="example-wrapper">
+        <div class="">
+            {{ form_start(formulario)}}
+                <div class="d-flex flex-row justify-content-around align-items-center">
+                    <div class="form-group">{{ form_row(formulario.valor)}}</div>
+                    <div class="form-group">{{ form_row(formulario.campo)}}</div>
+                    <div class="form-group">{{ form_row(formulario.orden)}}</div>
+                    <div class="form-group">{{ form_row(formulario.sentido)}}</div>
+                    <div class="form-group">{{ form_row(formulario.limite)}}</div>
+                    <div class="form-group">{{ form_row(formulario.SEARCH)}}</div>
+                    {{ form_rest(formulario)}}
+                </div>
+            {{ form_end(formulario) }}
+        </div>
+        {% if( places ) %}
+            <h4 class="text-center m-2 p-2 font-weight-bold">RESULTADOS</h4>
+        {% include 'place/includes/placestable.html.twig' %}
+        {% else %}
+            <div class="content d-flex flex-column justify-content-center align-items-center">
+				<p class="font-weight-light font-italic">No hay resultados con ese término de búsqueda</p>
+        {% endif %}
+        <div class="d-flex flex-row justify-content-center">
+            <a href="{{ path('searchplace') }}">VOLVER A BUSCAR</a>
+        </div>
+    </div>
+{% endblock %}

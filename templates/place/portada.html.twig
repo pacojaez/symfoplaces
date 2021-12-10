@@ -1,0 +1,71 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Todos los Sitios{% endblock %}
+
+{% block main %}
+  <style>
+      .example-wrapper { margin: 1em auto; max-width: 1200px; width: 95%; font: 18px/1.5 sans-serif; }
+  </style>
+    <div class="w-full text-center">
+      <div class="flex-row p-2 m-2 d-flex justify-content-around align-items-center">
+        <h3>
+          Symfoplaces portada
+        </h3>
+        {% set ruta = 'portada' %}
+        {% if totalPaginas > 1 %}
+            {% include('components/pagination.html.twig') %}
+        {% endif %}
+      </div>
+        {% if places %}
+            <div class="p-2 m-2">
+                <div class="d-flex flex-row flex-wrap justify-content-center align-items-center bg-dark">
+                    {% for place in places %}
+                    {% set photos = place.getPhotos() %}
+                    {% set count = photos.count %}
+                      {% if( count != 0 ) %}
+                       <div class="col-2 mw-full m-10">
+                          <a href="{{ path('place_show', {'id':place.id })}}">               
+                            <div class="text-center mb-5">                          
+                              <!-- Responsive image -->
+                              <img src="{{ asset(places_directory~'/'~(photos[0].ruta)) }}" class="img-fluid rounded" alt="responsive image">
+                            </div>                 
+                          </a>
+                          <div class="content">
+                            <h2 class="content-title mb-5">
+                              {{ place.titulo }}
+                            </h2>
+                             <p class="font-weight-normal d-sm-none d-md-block">
+                              Número de fotos del sitio: {{ count }}
+                            </p>
+                            <div>
+                              <span class="text-muted d-sm-none d-md-block">
+                                <i class="fa fa-clock-o mr-5" aria-hidden="true"></i>
+                                Añadido el {{ place.createdAt | date("d/m/Y") }}
+                              </span>
+                            </div>
+                            <div>
+                              <span class="badge">
+                                <i class="fa fa-comments text-primary mr-5" aria-hidden="true"></i>
+                                {{ place.getComments().count() }} Commentarios
+                              </span>
+                              <span class="badge ml-5"> <!-- ml-5 = margin-left: 0.5rem (5px) -->
+                                <i class="fa fa-heart text-danger mr-5" aria-hidden="true"></i> 124 likes <!-- text-danger = color: danger-color, mr-5 = margin-right: 0.5rem (5px) -->
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      {% endif %}
+                    <hr />
+                    {% endfor %}
+                </div>
+                {# {% if totalPaginas > 1 %}
+                    {% include('components/pagination.html.twig') %}
+                {% endif %} #}
+            </div>
+        {% else %}
+          <div class="p-4 m-4 alert alert-danger" role="alert">
+              <h4 class="alert-heading">No hay sitios en la DB con ese término de búsqueda</h4>
+          </div>
+        {% endif %}
+    </div>
+{% endblock %}

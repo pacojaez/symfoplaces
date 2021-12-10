@@ -1,0 +1,127 @@
+ <!-- Navbar start -->
+      <nav class="navbar justify-content-center">
+        <!-- Navbar content (with toggle sidebar button) -->
+        {% if is_granted('create', entityFaker.getMock('User') ) %}
+          <div class="navbar-content ml-0">
+            <button class="btn btn-action" type="button" onclick="halfmoon.toggleSidebar()">
+              <i class="fa fa-bars" aria-hidden="true"></i>
+            </button>
+          </div>
+        {% endif %}
+        <!-- Navbar brand -->
+        <a href="{{ path('portada')}}" class="navbar-brand">
+          <img src="/img/mat/symfoplaces_icono.png" alt="symfoplaces">
+          SYMFOPLACES
+          {# SYMFOPLACES #}
+        </a>
+
+      <div class="d-sm-none d-none d-md-flex m-10">
+        <!-- Navbar text -->
+        <span class="navbar-text text-monospace m-10">v1.0</span> <!-- text-monospace = font-family shifted to monospace -->
+        <!-- Navbar nav -->
+        <div class="dropdown m-10">
+          <button class="btn" data-toggle="dropdown" type="button" id="dropdown-toggle-btn-1" aria-haspopup="true" aria-expanded="false">
+            LUGARES <i class="fa fa-angle-down ml-5" aria-hidden="true"></i> <!-- ml-5 = margin-left: 0.5rem (5px) -->
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdown-toggle-btn-1">
+            <h6 class="dropdown-header">LET´S ROCK</h6>
+            <a href="{{ path('all_places') }}" class="dropdown-item nav-link {{ app.request.get('_route') == 'all_places' ? 'active'}}">TODOS LOS LUGARES</a>
+            {% if is_granted('create', entityFaker.getMock('Place') ) %}
+            <a href="{{ path('place_create') }}" class="dropdown-item nav-link {{ app.request.get('_route') == 'place_create' ? 'active'}}">CREAR LUGAR</a>
+            {% endif %}
+            {# <a href="{{ path('movie_search') }}" class="dropdown-item nav-link {{ app.request.get('_route') == 'movie_search' ? 'active'}}">BUSCAR PELÍCULA</a> #}
+            {#<div class="dropdown-divider"></div>
+            <div class="dropdown-content">
+              <button class="btn btn-block" type="button">Button</button>
+            </div> #}
+          </div>
+        </div>
+        <button class="btn m-10" type="button" aria-expanded="false">
+            <a href="{{ path('searchplace')}}" class="{{ app.request.get('_route') == 'searchplace' ? 'active'}}">BUSCAR LUGARES</a>
+        </button>
+        <button class="btn m-10" type="button" aria-expanded="false">
+            <a href="{{ path('contact') }}" class="nav-link {{ app.request.get('_route') == 'contact' ? 'active'}}">Contacto</a>
+        </button>
+        {# <ul class="navbar-nav d-none d-md-flex"> <!-- d-none = display: none, d-md-flex = display: flex on medium screens and up (width > 768px) -->
+          <li class="nav-item active">
+            <a href="#" class="nav-link">Docs</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">Products</a>
+          </li>
+          <li class="nav-item {{ app.request.get('_route') == 'contact' ? 'active'}}"><a href="{{ path('contact') }}" class="nav-link">Contacto</a></li>
+        </ul>  #}
+        <button class="btn btn-sm m-10" type="button" onclick="halfmoon.toggleDarkMode()">
+            <i class="fas fa-moon"></i>
+        </button>
+        <!-- Navbar form (inline form) -->
+        {# <form class="form-inline d-none d-md-flex ml-auto" action="..." method="..."> <!-- d-none = display: none, d-md-flex = display: flex on medium screens and up (width > 768px), ml-auto = margin-left: auto -->
+          <input type="text" class="form-control" placeholder="Email address" required="required">
+          <button class="btn btn-primary" type="submit">Sign up</button>
+        </form> #}
+        <!-- Navbar content (with the dropdown menu) -->
+       <span class="navbar-text text-monospace m-10">{{ "now"|date('d/m/Y H:i', timezone="Europe/Madrid")}}</span>
+        <div class="d-inline-flex align-items-center">
+          {% if app.user %}
+            <div class="dropdown with-arrow">
+              <div class="d-inline-flex align-items-center">
+              <!-- Circle image -->
+              <img src="{{ app.user.avatar ?
+                        path('pic_show', {'avatar': app.user.avatar }) :
+                        path('pic_show', {'avatar': 'default.png'})
+                    }}" 
+                    class="rounded-circle w-50 h-50 m-5 p-5" 
+                    alt="{{ app.user.name }}"> 
+                <p class="p-2 m-2">Hola {{ app.user.name }}</p>
+                <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
+                  <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div
+                class="dropdown-menu dropdown-menu-center w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
+                <!-- w-200 = width: 20rem (200px) -->
+                <a href="{{ path('home') }}" class="dropdown-item text-center">HOME</a>
+                <div class="dropdown-divider"></div>
+                <div class="dropdown-item text-center">
+                  <a href="{{ path('app_logout') }}" class="btn btn-danger" role="button">Sign out</a>
+                </div>		
+                <div class="dropdown-divider"></div>
+              </div>
+            </div>
+          {% else %}
+            <div class="d-flex flex-row justify-content-between align-items-center">
+              <div class="m-5 p-5">
+                <a href="{{ path('app_login') }}" class="btn btn-primary m-4" role="button">Sign in</a>
+              </div>
+              <div class="m-5 p-5">
+                <a href="{{ path('app_register') }}" class="btn btn-primary m-4" role="button">Register</a>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+        <!-- Navbar content (with the dropdown menu) -->
+      <div class="navbar-content d-md-none ml-auto"> <!-- d-md-none = display: none on medium screens and up (width > 768px), ml-auto = margin-left: auto -->
+        <div class="dropdown with-arrow">
+          <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
+            Menu
+            <i class="fa fa-angle-down" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1"> <!-- w-200 = width: 20rem (200px) -->
+            <a href="#" class="dropdown-item">Docs</a>
+            <a href="#" class="dropdown-item">Products</a>
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-content">
+              <form action="..." method="...">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Email address" required="required">
+                </div>
+                <button class="btn btn-primary btn-block" type="submit">Sign up</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+      <!-- Navbar end -->
