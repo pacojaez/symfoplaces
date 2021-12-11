@@ -47,7 +47,7 @@
             <a href="#" class="nav-link">Docs</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">Products</a>
+            <a href="#" class="nav-link">Products </a>
           </li>
           <li class="nav-item {{ app.request.get('_route') == 'contact' ? 'active'}}"><a href="{{ path('contact') }}" class="nav-link">Contacto</a></li>
         </ul>  #}
@@ -109,16 +109,50 @@
             <i class="fa fa-angle-down" aria-hidden="true"></i>
           </button>
           <div class="dropdown-menu dropdown-menu-right w-200" aria-labelledby="navbar-dropdown-toggle-btn-1"> <!-- w-200 = width: 20rem (200px) -->
-            <a href="#" class="dropdown-item">Docs</a>
-            <a href="#" class="dropdown-item">Products</a>
+           <a href="{{ path('all_places') }}" class="dropdown-item nav-link {{ app.request.get('_route') == 'all_places' ? 'active'}}">TODOS LOS LUGARES</a>
+            {% if is_granted('create', entityFaker.getMock('Place') ) %}
+              <a href="{{ path('place_create') }}" class="dropdown-item nav-link {{ app.request.get('_route') == 'place_create' ? 'active'}}">CREAR LUGAR</a>
+            {% endif %}
+            <a href="{{ path('searchplace')}}" class="dropdown-item nav-link {{ app.request.get('_route') == 'searchplace' ? 'active'}}">BUSCAR LUGARES</a>
+            <a href="{{ path('contact') }}" class="dropdown-item nav-link {{ app.request.get('_route') == 'contact' ? 'active'}}">Contacto</a>
             <div class="dropdown-divider"></div>
             <div class="dropdown-content">
-              <form action="..." method="...">
-                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Email address" required="required">
+              {% if app.user %}
+              <div class="dropdown with-arrow">
+                <div class="d-inline-flex align-items-center">
+                <!-- Circle image -->
+                <img src="{{ app.user.avatar ?
+                          path('pic_show', {'avatar': app.user.avatar }) :
+                          path('pic_show', {'avatar': 'default.png'})
+                      }}" 
+                      class="rounded-circle w-50 h-50 m-5 p-5" 
+                      alt="{{ app.user.name }}"> 
+                  <p class="p-2 m-2">Hola {{ app.user.name }}</p>
+                  <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </button>
                 </div>
-                <button class="btn btn-primary btn-block" type="submit">Sign up</button>
-              </form>
+                <div
+                  class="dropdown-menu dropdown-menu-center w-200" aria-labelledby="navbar-dropdown-toggle-btn-1">
+                  <!-- w-200 = width: 20rem (200px) -->
+                  <a href="{{ path('home') }}" class="dropdown-item text-center">HOME</a>
+                  <div class="dropdown-divider"></div>
+                  <div class="dropdown-item text-center">
+                    <a href="{{ path('app_logout') }}" class="btn btn-danger" role="button">Sign out</a>
+                  </div>		
+                  <div class="dropdown-divider"></div>
+                </div>
+              </div>
+            {% else %}
+              <div class="d-flex flex-column justify-content-between align-items-center">
+                <div class="m-5 p-5">
+                  <a href="{{ path('app_login') }}" class="btn btn-primary m-4" role="button">Sign in</a>
+                </div>
+                <div class="m-5 p-5">
+                  <a href="{{ path('app_register') }}" class="btn btn-primary m-4" role="button">Register</a>
+                </div>
+              </div>
+            {% endif %}
             </div>
           </div>
         </div>
