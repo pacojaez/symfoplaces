@@ -19,6 +19,8 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use App\Services\FileService;
 use DateTime;
 
+use Psr\Log\LoggerInterface;
+
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
@@ -29,7 +31,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface, EntityManagerInterface $entityManager, FileService $uploader ): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface, EntityManagerInterface $entityManager, FileService $uploader, LoggerInterface $appUserLogger ): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -65,7 +67,7 @@ class RegistrationController extends AbstractController
             );
             // do anything else you need here, like send an email
             $this->addFlash('success', 'Te hemos mandado un mail para que completes el registro. Clicka en el link que te hemos enviado y el proceso estará completado');
-            // $appUserLogger->notice( "Usuario nuevo registrado. Pendiente de verificar. Email: ".$user->getEmail());
+            $appUserLogger->notice( "Usuario nuevo registrado. Pendiente de verificar. Email: ".$user->getEmail());
 
             return $this->redirectToRoute('app_login');
         }
@@ -76,7 +78,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, UserRepository $userRepository): Response
+    public function verifyUserEmail(Request $request, UserRepository $userRepository, LoggerInterface $appUserLogger): Response
     {
         $id = $request->get('id');
 
@@ -99,7 +101,7 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        // $appUserLogger->info( "Usuario nuevo verificado. Email: ".$user->getEmail());
+        $appUserLogger->info( "Usuario nuevo verificado. Email: ".$user->getEmail());
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Gracias por verificar tu cuenta. Entra y comparte tus experiencias');
 

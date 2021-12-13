@@ -148,8 +148,8 @@ class UserController extends AbstractController
             $mensaje = "Usuario ".$user->getName()." borrado correctamente";
             $this->addFlash('success', $mensaje);
 
-            // $mensaje = "El Usuario ".$user->getName()." se ha dado de baja";
-            $appUserLogger->warning($mensaje);
+            $mens = "El Usuario ".$user->getName()." se ha dado de baja";
+            $appUserLogger->warning($mens);
 
             return $this->redirectToRoute('portada');
         }
@@ -227,7 +227,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/delete/{id}', name:'user_delete')]
-    public function delete( User $user, Request $request, FileService $uploader, EntityManagerInterface $em, LoggerInterface $appUserLogger, ): Response {
+    public function delete( User $user, Request $request, FileService $uploader, EntityManagerInterface $em, LoggerInterface $appUserLogger ): Response {
 
         $this->denyAccessUnlessGranted('create', $user);
 
