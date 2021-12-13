@@ -14,6 +14,8 @@ use App\Entity\Photo;
 use App\Entity\Place;
 use Doctrine\ORM\EntityManagerInterface;
 
+use Psr\Log\LoggerInterface;
+
 class PhotoController extends AbstractController
 {
     #[Route('/photo', name: 'photo')]
@@ -25,7 +27,7 @@ class PhotoController extends AbstractController
     }
 
     #[Route('/photo/create', name: 'photo_create')]
-    public function create( Request $request, FileService $uploader, EntityManagerInterface $em ){
+    public function create( Request $request, FileService $uploader, EntityManagerInterface $em, LoggerInterface $appInfoLogger ){
         
         $photo = new Photo();
         $place = $em->getRepository( Place::class )->find( $request->get('id'));
@@ -66,8 +68,10 @@ class PhotoController extends AbstractController
             // $nombre = $request->request->all();
             // $nombre = $request->query->all()['actor_form']['nombre'];
             // $nombre = $request->get('actor_form')['nombre'];
+            $mens = 'Foto añadida correctamente al lugar '.$place->getTitulo();
 
-            $this->addFlash('success', 'Foto añadida correctamente');
+            $this->addFlash('success', $mens);
+            $appInfoLogger->info($mens);
 
             return $this->redirectToRoute('place_edit', [
                 'id' => $id
@@ -80,25 +84,30 @@ class PhotoController extends AbstractController
     }
 
     #[Route('/photo/delete/{id}', name: 'photo_delete', methods:["GET"])]
-    public function delete( Photo $photo, Request $request, FileService $uploader, EntityManagerInterface $em ): Response {
+    public function delete( Photo $photo, Request $request, FileService $uploader, EntityManagerInterface $em, LoggerInterface $appInfoLogger ): Response {
 
         $this->denyAccessUnlessGranted('edit', $photo);
 
         $id = $photo->getPlace()->getId();
-        // dd($id);
+        
 
         $uploader->targetDirectory = $this->getParameter('app.places_root');
 
         if ( !$uploader->remove($photo->getRuta())){
-            $this->addFlash( 'success', 'Imagen borrada del sistema de archivos correctamente' );
+            $this->addFlash( 'success', 'Imagen borrada del sistema de archivos correctamente');
         }else{
             $this->addFlash( 'warning', 'Imagen no borrada' );
         }
 
         $em->remove($photo);
+        $em->flush();
         
-        if( $em->flush())
-                $this->addFlash( 'success', 'Imagen borrada de la Base de Datos correctamente' );
+        if( !$uploader->get($photo->getRuta()) ){
+            $mens = 'Imagen del lugar '.$photo->getPlace()->getTitulo().' borrada de la Base de Datos correctamente';
+            $this->addFlash( 'success', $mens );
+            $appInfoLogger->info($mens);
+        }
+                
 
         return $this->redirectToRoute('place_edit', ['id'=>$id]);
 

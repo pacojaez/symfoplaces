@@ -17,23 +17,23 @@
             <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>IMAGEN</th>
-                    <th>EMAIL</th>
-                    <th>NICK</th>
-                    <th>PHONE</th>
-                    <th>COUNTRY</th>
-                    <th>CITY</th>
-                    <th>REGISTRADO</th>
-                    <th>VERIFICADO</th>
-                    <th>Actions</th>
+                    <th class="text-center">#</th>
+                    <th class="hidden-sm-and-down">IMAGEN</th>
+                    <th class="text-center">EMAIL</th>
+                    <th class="text-center">NICK</th>
+                    <th class="text-center">PHONE</th>
+                    <th class="text-center">COUNTRY</th>
+                    <th class="text-center">CITY</th>
+                    <th class="text-center">REGISTRADO</th>
+                    <th class="text-center">VERIFICADO</th>
+                    <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for user in users %}
                 <tr>
-                <th>{{ user.id }}</th>
-                    <td>
+                    <td class="text-center">{{ user.id }}</td>
+                    <td class="hidden-sm-and-down">
                     <img src="{{ user.avatar ?
                             path('pic_show', {'avatar': user.avatar }) :
                             path('pic_show', {'avatar': 'default.png'})
@@ -41,14 +41,14 @@
                             class="img-fluid rounded-top w-175 h-150 justify-center m-2 p-2" 
                             alt="{{ user.name }}">
                     </td>
-                    <td class="text-left">{{ user.email }}</td>
-                    <td class="text-left">{{ user.name }}</td>
-                    <td class="text-left">{{ user.phone }}</td>
-                    <td class="text-left">{{ user.country }}</td>
-                    <td class="text-left">{{ user.city }}</td>
-                    <td class="text-left">{{ user.createdAt|date("d/m/Y")   }}</td>
-                    <td class="text-center">{{ user.isverified }}</td>
-                    <td class="">
+                    <td class="text-center">{{ user.email }}</td>
+                    <td class="text-center">{{ user.name }}</td>
+                    <td class="text-center">{{ user.phone }}</td>
+                    <td class="text-center">{{ user.country }}</td>
+                    <td class="text-center">{{ user.city }}</td>
+                    <td class="text-center">{{ user.createdAt|date("d/m/Y")   }}</td>
+                    <td class="text-center"r">{{ user.isverified }}</td>
+                    <td class="text-center">
                         <div class="d-flex justify-content-start align-items-center">
                             {% if is_granted('show', user ) %}
                                 <a href="{{ path('user_show', {'id':user.id })}}" class="m-5 primary">

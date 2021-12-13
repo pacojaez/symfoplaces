@@ -23,6 +23,8 @@ use App\Form\SearchFormType;
 
 use App\Form\PlaceFormType;
 
+use Psr\Log\LoggerInterface;
+
 class PlaceController extends AbstractController
 {
     #[Route('/portada/{pagina}', name: 'portada', defaults:['pagina'=> 1 ])]
@@ -71,7 +73,7 @@ class PlaceController extends AbstractController
     }
 
     #[Route('/place/create', name: 'place_create')]
-    public function create( Request $request, EntityManagerInterface $em ): Response {
+    public function create( Request $request, EntityManagerInterface $em, LoggerInterface $appInfoLogger ): Response {
 
         $place = new Place();
 
@@ -93,6 +95,7 @@ class PlaceController extends AbstractController
 
             $mensaje = "Lugar ".$place->getTitulo()." con id: ".$place->getId()." guardado correctamente";
             $this->addFlash( 'success', $mensaje );
+            $appInfoLogger->info( $mensaje );
 
             return $this->redirectToRoute('place_edit', [
                 'id' => $place->getId()
@@ -121,6 +124,7 @@ class PlaceController extends AbstractController
 
             $mensaje = "Lugar ".$place->getTitulo()." con id: ".$place->getId()." actualizado correctamente";
             $this->addFlash( 'success', $mensaje );
+            $appInfoLogger->info( $mensaje );
 
             return $this->redirectToRoute('place_edit', [
                 'id' => $place->getId()
@@ -172,6 +176,7 @@ class PlaceController extends AbstractController
     
             $mensaje = "Lugar y fotos asociadas ".$place->getTitulo()." borrados correctamente";
             $this->addFlash( 'success', $mensaje );
+            $appInfoLogger->info( $mensaje );
     
             return $this->redirectToRoute('all_places');
 
@@ -223,7 +228,7 @@ class PlaceController extends AbstractController
     }
 
     #[Route('/place/search', name: 'searchplace', methods: ['GET', 'POST'] )]
-    public function search ( Request $request, SimpleSearchService $busqueda ): Response {
+    public function search ( Request $request, SimpleSearchService $busqueda, LoggerInterface $appSearchLogger ): Response {
 
         $formulario = $this->createForm( SearchFormType::class, $busqueda, [
             'field_choices' => [
@@ -250,11 +255,43 @@ class PlaceController extends AbstractController
         // $valor = $request->request->get('valor');
         // // $valor = $formulario->get('valor')->setData($busqueda->valor);
         // dd($request);
-        // $appSearchLogger->info( "Se ha buscado el término: ".$valor);
+        $appSearchLogger->info( "Se ha buscado el término: ".$formulario->get('valor')->getData(). " en el campo ".$formulario->get('campo')->getData());
 
         return $this->renderForm('place/searchform.html.twig', [
             'formulario' => $formulario,
             'places' => $places
         ]);
+    }
+
+    /**
+     * @Route("/searchlogs", name="searchlogs")
+     */
+    public function searchlogs(): Response {
+
+        // "[2021-11-03T15:22:50.601744+00:00] app_search.INFO: Se ha buscado el término: Peter [] []" //linea que es guardada en el log de search
+        if( file_exists('..\var\log\appsearch.log')){           //evita error de que no exista el archivo
+
+            $logs = file('..\var\log\appsearch.log');
+            $resultado = [];
+
+            foreach( $logs as $log ){
+                $logLimpio = str_replace('[]', ' ', $log);
+                $terminoBusqueda = substr( $logLimpio, 1, 10);
+                $terminoBusqueda .= ': '.substr( $logLimpio, 79, (strlen($logLimpio)) );
+                array_push( $resultado, $terminoBusqueda );
+
+                //TODO contar el numero de busquedas de cada término y añadirlo a la vista
+            }
+
+            return $this->render('user/admin/searchlogs.html.twig', [
+                'resultado' => array_reverse($resultado),
+            ]);
+        }else{
+            return $this->render('user/admin/searchlogs.html.twig', [
+                'resultado' => [],
+            ]);
+
+        }
+    
     }
 }

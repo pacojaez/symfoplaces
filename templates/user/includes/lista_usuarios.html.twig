@@ -8,11 +8,11 @@
             <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>IMAGEN</th>
-                    <th>EMAIL</th>
-                    <th>DISPLAYNAME</th>
-                    <th>VERIFICADO</th>
+                    <th class="text-center">#</th>
+                    <th class="d-sm-none d-xl-block">IMAGEN</th>
+                    <th class="text-center">EMAIL</th>
+                    <th class="text-center">DISPLAYNAME</th>
+                    <th class="text-center">VERIFICADO</th>
                     {% if is_granted('create', entityFaker.getMock('User') ) %}
                         <th>Actions</th>
                     {% endif %}
@@ -21,19 +21,19 @@
             <tbody>
                 {% for user in users %}
                 <tr>
-                <th>{{ user.id }}</th>
-                    <td>
-                    <img src="{{ app.user.avatar ?
-                            path('pic_show', {'avatar': app.user.avatar }) :
-                            path('pic_show', {'avatar': 'default.png'})
-                            }}" 
-                            class="img-fluid rounded-top w-175 h-150 justify-center m-2 p-2" 
-                            alt="{{ app.user.displayname }}">
+                    <td class="text-center">{{ user.id }}</td>
+                    <td class="d-sm-none d-lg-block">
+                        <img src="{{ app.user.avatar ?
+                                path('pic_show', {'avatar': app.user.avatar }) :
+                                path('pic_show', {'avatar': 'default.png'})
+                                }}" 
+                                class="img-fluid rounded-top w-175 h-150 justify-center m-2 p-2" 
+                                alt="{{ app.user.displayname }}" />
                     </td>
                     <td class="text-left">{{ user.email }}</td>
                     <td class="text-left">{{ user.displayname }}</td>
                     <td class="text-center">{{ user.isverified }}</td>
-                    <td class="">
+                    <td class="text-center">
                         {% if is_granted('show', user ) %}
                             <div class="d-flex justify-content-start align-items-center">
                                 <a href="{{ path('user_show', {'id':user.id })}}" class="m-2 primary"><img src="{{ asset('img/buttons/show.png')}}" alt="detalles usuario {{ user.displayname }}"  style="height:20px; width:20px"/></a>

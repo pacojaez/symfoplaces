@@ -15,9 +15,9 @@
           {# SYMFOPLACES #}
         </a>
 
-      <div class="d-sm-none d-none d-md-flex m-10">
+      <div class="hidden-md-and-down d-flex m-10">
         <!-- Navbar text -->
-        <span class="navbar-text text-monospace m-10">v1.0</span> <!-- text-monospace = font-family shifted to monospace -->
+        <span class="navbar-text text-monospace m-10 hidden-md-and-down">v1.0</span> <!-- text-monospace = font-family shifted to monospace -->
         <!-- Navbar nav -->
         <div class="dropdown m-10">
           <button class="btn" data-toggle="dropdown" type="button" id="dropdown-toggle-btn-1" aria-haspopup="true" aria-expanded="false">
@@ -102,8 +102,8 @@
 
       </div>
         <!-- Navbar content (with the dropdown menu) -->
-      <div class="navbar-content d-md-none ml-auto"> <!-- d-md-none = display: none on medium screens and up (width > 768px), ml-auto = margin-left: auto -->
-        <div class="dropdown with-arrow">
+      <div class="navbar-content hidden-lg-and-up ml-auto"> <!-- d-md-none = display: none on medium screens and up (width > 768px), ml-auto = margin-left: auto -->
+        <div class="dropdown with-arrow hidden-lg-and-up">
           <button class="btn" data-toggle="dropdown" type="button" id="navbar-dropdown-toggle-btn-1">
             Menu
             <i class="fa fa-angle-down" aria-hidden="true"></i>

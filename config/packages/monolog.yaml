@@ -1,0 +1,23 @@
+monolog:
+    channels: ['app_info', 'app_search', 'app_user']
+
+    handlers:
+        appinfo:
+            type: stream
+            path: "%kernel.logs_dir%/appinfo.log"
+            level: debug
+            channels: ["app_info"]
+            buffer_size: 500
+        appsearch:
+            type: stream
+            path: "%kernel.logs_dir%/appsearch.log"
+            level: debug
+            channels: ["app_search"]
+            buffer_size: 500
+        appusers:
+            type: stream
+            path: "%kernel.logs_dir%/appusers.log"
+            level: debug
+            channels: ["app_user"]
+            buffer_size: 500
+

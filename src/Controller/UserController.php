@@ -23,6 +23,8 @@ use App\Form\UserUpdateFormType;
 use App\Form\UserDeleteFormType;
 use Doctrine\ORM\EntityManager;
 
+use Psr\Log\LoggerInterface;
+
 class UserController extends AbstractController
 {
     #[Route('/user', name: 'user')]
@@ -147,7 +149,7 @@ class UserController extends AbstractController
             $this->addFlash('success', $mensaje);
 
             // $mensaje = "El Usuario ".$user->getName()." se ha dado de baja";
-            // $appUserLogger->warning($mensaje);
+            $appUserLogger->warning($mensaje);
 
             return $this->redirectToRoute('portada');
         }
@@ -225,7 +227,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/delete/{id}', name:'user_delete')]
-    public function delete( User $user, Request $request, FileService $uploader, EntityManagerInterface $em ): Response {
+    public function delete( User $user, Request $request, FileService $uploader, EntityManagerInterface $em, LoggerInterface $appUserLogger, ): Response {
 
         $this->denyAccessUnlessGranted('create', $user);
 
@@ -262,6 +264,7 @@ class UserController extends AbstractController
     
                 $mensaje = "Usuario ".$user->getName()." borrado correctamente";
                 $this->addFlash('success', $mensaje);
+                $appUserLogger->warning($mensaje);
 
                 $userLogeado = $this->getUser();
     
@@ -277,5 +280,48 @@ class UserController extends AbstractController
             'formulario' => $formulario,
             'user' => $user
         ]);
+    }
+
+    /**
+     * @Route("/usersactions", name="usersactions")
+     */
+    public function userslogs(): Response {
+
+        // [2021-11-18T10:40:58.445222+01:00] app_user.INFO: Usuario nuevo registrado. Pendiente de verificar. Email: pacojaez@gmail.com [] [] //linea que es guardada en el log de search
+        if( file_exists('..\var\log\appusers.log')){           //evita error de que no exista el archivo
+
+            $logs = file('..\var\log\appusers.log');
+            $resultado = [];
+
+            foreach( $logs as $log ){
+                // dd($log);
+                $verified = '';
+                $logLimpio = str_replace('[]', ' ', $log);
+                $userAction = substr( $logLimpio, 1, 19);
+                $userAction .= ': '.substr( $logLimpio, 50, (strlen($logLimpio)) );
+                if ( strstr( $log, 'INFO' ) ) {
+                    $status = 'Verificado';
+                  } elseif  (strstr( $log, 'NOTICE' )){
+                    $status = 'Registrado';
+                  } elseif (strstr( $log, 'WARNING' )){
+                    $status = 'Baja';
+                  }else{
+                    $status = '';
+                  }
+                array_push( $resultado, ['action' => $userAction, 'status'=>$status] );
+
+                //TODO poner fondo distinto si es registro o verificación o baja
+            }
+
+            return $this->render('user/admin/usersAction.html.twig', [
+                'resultado' => array_reverse($resultado),
+            ]);
+        }else{
+            return $this->render('user/admin/usersAction.html.twig', [
+                'resultado' => [],
+            ]);
+
+        }
+    
     }
 }
