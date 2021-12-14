@@ -44,9 +44,9 @@ class PlaceController extends AbstractController
     }
 
     #[Route('/', name: 'index')]
-    public function home( ): Response
+    public function index( ): Response
     {
-        return $this->render('home.html.twig');
+        return $this->render('index.html.twig');
     }
 
     #[Route('/allplaces/{pagina}', name: 'all_places', defaults:['pagina'=> 1 ])]
