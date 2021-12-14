@@ -1,7 +1,8 @@
 
 {% extends 'layouts/base.html.twig' %}
 
-{% block title %} Mostrar sitio {% endblock %}
+{% block title %} Mostrar sitio {{ place.titulo }} {% endblock %}
+{% block description %}Información del lugar {{ place.titulo }} de la App Symfoplaces {% endblock %}
 
 {% block main %}
 {{ parent() }}

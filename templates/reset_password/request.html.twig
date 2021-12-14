@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Reset your password{% endblock %}
+{% block description %}Petición de recuperación de conntraseña Symfoplaces{% endblock %}
+
 
 {% block main %}
     {% for flashError in app.flashes('reset_password_error') %}
