@@ -30,22 +30,9 @@ class PlaceController extends AbstractController
     #[Route('/portada/{pagina}', name: 'portada', defaults:['pagina'=> 1 ])]
     public function portada( EntityManagerInterface $em, PaginatorService $paginator, int $pagina  ): Response
     {
-        // $places = $em->getRepository(Place::class)->findAll();
         $paginator->setEntityType('App\Entity\Place');
         
         $places = $paginator->findAllEntities( $pagina ); 
-        
-        // array_filter( $places, function( $place){
-        //     return ($place->getPhotos() != []);
-        // });
-        // dd($places);
-        // foreach($places as $place){
-        //     if( !$place->getPhotos())
-        //         unset($places, $place);
-        //     // foreach($fotos as $foto){
-        //     //     dd($foto);
-        //     // }
-        // }
 
         return $this->render('place/portada.html.twig', [
             'places' => $places,
@@ -54,6 +41,12 @@ class PlaceController extends AbstractController
             'paginaActual' => $pagina,
             'entidad' => 'Places',
         ]);
+    }
+
+    #[Route('/', name: 'index')]
+    public function home( ): Response
+    {
+        return $this->render('home.html.twig');
     }
 
     #[Route('/allplaces/{pagina}', name: 'all_places', defaults:['pagina'=> 1 ])]
@@ -124,7 +117,7 @@ class PlaceController extends AbstractController
 
             $mensaje = "Lugar ".$place->getTitulo()." con id: ".$place->getId()." actualizado correctamente";
             $this->addFlash( 'success', $mensaje );
-            $appInfoLogger->info( $mensaje );
+            // $appInfoLogger->info( $mensaje );
 
             return $this->redirectToRoute('place_edit', [
                 'id' => $place->getId()
@@ -176,7 +169,7 @@ class PlaceController extends AbstractController
     
             $mensaje = "Lugar y fotos asociadas ".$place->getTitulo()." borrados correctamente";
             $this->addFlash( 'success', $mensaje );
-            $appInfoLogger->info( $mensaje );
+            // $appInfoLogger->info( $mensaje );
     
             return $this->redirectToRoute('all_places');
 

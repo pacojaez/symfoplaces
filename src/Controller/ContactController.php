@@ -24,29 +24,26 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if( $form->isSubmitted() && $form->isValid()){
-            $datos = $form->getData();
-
-            $email = new TemplatedEmail();
-            // $email->from($datos['email'])
+            /**
+             * metodo comentado para evitar que nos manden mensajes.
+             * descomentado los mails llegarían a la app.admin_email variable
+             */
+            // $datos = $form->getData();
+            // $email = new TemplatedEmail();
+            // $email->from(new Address( $datos['email']))
             //         ->to($this->getParameter('app.admin_email'))
             //         ->subject($datos['asunto'])
-            //         ->text($datos['contenido']);
-            $email->from(new Address( $datos['email']))
-                    ->to($this->getParameter('app.admin_email'))
-                    ->subject($datos['asunto'])
-                    ->htmlTemplate('email/contacto/contacto.html.twig')
-                    ->context([
-                        'de' => $datos['email'],
-                        'nombre' => $datos['nombre'],
-                        'asunto' => $datos['asunto'],
-                        'contenido' => $datos['contenido']
-                    ]);
-
-            $mailer->send($email);
-
-            $mensaje = "Mail enviado correctamente ";
-            $this->addFlash( 'success', $mensaje );
-            $appInfoLogger->info( 'Email enviado de: '.$datos['email'] );
+            //         ->htmlTemplate('email/contacto/contacto.html.twig')
+            //         ->context([
+            //             'de' => $datos['email'],
+            //             'nombre' => $datos['nombre'],
+            //             'asunto' => $datos['asunto'],
+            //             'contenido' => $datos['contenido']
+            //         ]);
+            // $mailer->send($email);
+            // $mensaje = "Mail enviado correctamente ";
+            // $this->addFlash( 'success', $mensaje );
+            // $appInfoLogger->info( 'Email enviado de: '.$datos['email'] );
 
             return $this->redirectToRoute('portada');
 
