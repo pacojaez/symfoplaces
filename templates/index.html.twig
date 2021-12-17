@@ -6,14 +6,48 @@
 {{ parent() }}
 <div class="d-flex text-center m-20 p-5">
   <div class="container-fluid m-10">
-    <h2>HOME</h2>
+    <h2>PROYECTO DE GESTIÓN DE USUARIOS REALIZADO EN EL CIFO LA VIOLETA</h2>
     <!-- First row -->
     <div class="row p-5 m-5 border">
-      <div class="col-xl-6">
-        
+      <div class="col-xl-6 p-5">
+        <div class="border">
+          <h4 class="">Roles de Usuarios:</h4>
+          <ul>
+            <li class="font-size-16 font-weight-bold text-decoration-underline">Role Admin</li>
+            <li class="font-size-16 font-weight-bold text-decoration-underline">Role Editor</li>
+            <li class="font-size-16 font-weight-bold text-decoration-underline">Role User</li>
+            <li class="font-size-16 font-weight-bold text-decoration-underline">Usuario Anónimo</li>
+          </ul>
+          <p class="font-italic font-size-12 text-lowercase m-20">LA GESTIÓN DE LOS USUARIOS SE REALIZA A TRAVÉS DE DISTINTOS MÉTODOS DE AUTENTICACIÓN, USANDO DISTINTOS VOTERS SEGÚN EL CASO DE USO</p>
+        </div>
       </div>
-      <div class="col-xl-6 d-flex justify-content-center align-items-center">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2992.0321620390578!2d2.130772315727576!3d41.41682050213235!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4981b5fdca4b1%3A0x35e8d1d280af19bd!2sCIFO%20Barcelona%20-%20La%20Violeta!5e0!3m2!1ses!2ses!4v1636443826954!5m2!1ses!2ses" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+      <div class="col-xl-6 p-5">
+        <div class="border">
+          <h4 class="">Casos de Uso:</h4>
+          <p class="font-italic font-size-12 text-lowercase mt-0 mb-10">Se establece un sistema de herencia en la jerarquia de roles del sistema</p>
+          <ul>
+            <li class="font-size-16 font-weight-lighter">El <span class="text-decoration-underline">usuario anónimo</span> puede ver y buscar lugares, ver fotos, ponerse en contacto con el admin del sistema, registarse y/o hacer login en el sistema</li>
+            <li class="font-size-16 font-weight-lighter">El <span class="text-decoration-underline">usuario registrado</span>, previa verificación por mail, puede crear lugares, añadir fotos, editar su perfil y los lugares y fotos de sus propiedad y comentar cualquier lugar</li>
+            <li class="font-size-16 font-weight-lighter">El <span class="text-decoration-underline">usuario editor</span>, puede crear lugares, añadir fotos, editar su perfil y los lugares y fotos de otros usuarios así como borrar comentarios</li>
+            <li class="font-size-16 font-weight-lighter">El <span class="text-decoration-underline">usuario administrador</span>, puede editar los perfiles de los usuarios y dar de baja usuarios, lugares, comentarios o fotos.</li>
+          </ul>
+          <p class="font-italic font-size-12 text-lowercase m-20">LA GESTIÓN DE LOS USUARIOS SE REALIZA A TRAVÉS DE DISTINTOS MÉTODOS DE AUTENTICACIÓN, USANDO DISTINTOS VOTERS SEGÚN EL CASO DE USO</p>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-row justify-content-center p-5 m-5 border">
+      <div class="p-5">
+        <div class="border">
+          <h4 class="">Relaciones entre Entidades:</h4>
+          <p class="font-italic font-size-12 text-lowercase mt-0 mb-10">LUGARES, FOTOS, COMENTARIOS Y USUARIOS</p>
+          <ul>
+            <li class="font-size-16 font-weight-lighter">Un <span class="text-decoration-underline">usuario</span> tiene N Lugares, Fotos o Comentarios</li>
+            <li class="font-size-16 font-weight-lighter">Un <span class="text-decoration-underline">lugar</span> es de un Usuario y tiene N comentarios y N Fotos</li>
+            <li class="font-size-16 font-weight-lighter">Una <span class="text-decoration-underline">foto</span> pertenece a un Lugar y a un Usuario</li>
+            <li class="font-size-16 font-weight-lighter">Un <span class="text-decoration-underline">comentario</span> pertenece a un Lugar y a un Usuario</li>
+          </ul>
+          <p class="font-italic font-size-12 text-lowercase m-20">LA GESTIÓN DE LOS USUARIOS SE REALIZA A TRAVÉS DE DISTINTOS MÉTODOS DE AUTENTICACIÓN, USANDO DISTINTOS VOTERS SEGÚN EL CASO DE USO</p>
+        </div>
       </div>
     </div>
 </div>

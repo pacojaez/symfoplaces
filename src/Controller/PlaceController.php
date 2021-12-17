@@ -106,6 +106,12 @@ class PlaceController extends AbstractController
 
         $this->denyAccessUnlessGranted('edit', $place);
 
+        if( $place->getId() < 21 ){
+            $this->addFlash( 'warning', 'Este lugar no se puede editar del servidor de pruebas' );
+            $this->addFlash( 'success', 'Prueba a añadir un lugar y editarlo' );
+            return $this->redirectToRoute('all_places');
+        }
+
         $formulario = $this->createForm( PlaceFormType::class, $place );
 
         $formulario->handleRequest( $request );
@@ -143,6 +149,12 @@ class PlaceController extends AbstractController
     public function delete( Place $place, Request $request, EntityManagerInterface $em, FileService $uploader ): Response {
 
         $this->denyAccessUnlessGranted('delete', $place);
+
+        if( $place->getId() < 21 ){
+            $this->addFlash( 'warning', 'Este lugar no se puede editar del servidor de pruebas' );
+            $this->addFlash( 'success', 'Prueba a añadir un lugar y borrarlo' );
+            return $this->redirectToRoute('all_places');
+        }
 
         $formulario = $this->createForm( PlaceDeleteFormType::class, $place );
 

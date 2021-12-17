@@ -90,6 +90,10 @@ class PhotoController extends AbstractController
 
         $id = $photo->getPlace()->getId();
         
+        if($photo->getId() < 81 ){
+            $this->addFlash( 'warning', 'Esta imagen no se puede borrar del servidor de pruebas' );
+            return $this->redirectToRoute('place_edit', ['id'=>$id]);
+        }
 
         $uploader->targetDirectory = $this->getParameter('app.places_root');
 
@@ -118,6 +122,13 @@ class PhotoController extends AbstractController
     public function edit( Photo $photo, Request $request, EntityManagerInterface $em ): Response {
 
         $this->denyAccessUnlessGranted('edit', $photo);
+
+        $id = $photo->getPlace()->getId();
+
+        if($photo->getId() < 81 ){
+            $this->addFlash( 'warning', 'Esta imagen no se puede editar del servidor de pruebas' );
+            return $this->redirectToRoute('place_edit', ['id'=>$id]);
+        }
 
         $formulario = $this->createForm( PhotoEditFormType::class, $photo );
 

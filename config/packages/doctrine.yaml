@@ -1,14 +1,24 @@
 doctrine:
     dbal:
         #url: '%env(resolve:DATABASE_URL)%'
-        dbname: symfoplaces
-        host: localhost
+        dbname: dbs5063716
+        host: db5006046034.hosting-data.io
         port: 3306
-        user: root
-        password:
+        user: dbu2522778
+        password: SymfoPlaces01_$
         driver: pdo_mysql
         charset: UTF8
-        server_version: mariadb-10.4.13
+        server_version: mariadb-10.5.12
+    # dbal:
+    #     #url: '%env(resolve:DATABASE_URL)%'
+    #     dbname: symfoplaces
+    #     host: localhost
+    #     port: 3306
+    #     user: root
+    #     password:
+    #     driver: pdo_mysql
+    #     charset: UTF8
+    #     server_version: mariadb-10.4.13
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
